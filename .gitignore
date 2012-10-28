@@ -1,3 +1,6 @@
+moc_*.cpp
+untitled.pro.user*
+
 # Compiled source #
 ###################
 *.com
