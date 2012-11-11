@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     chartwidget.cpp \
-    program.cpp
+    program.cpp \
+    methods.cpp
 
 HEADERS  += mainwindow.h \
     chartwidget.h \
     program.h \
-    point.h
+    point.h \
+    methods.h
 
 FORMS    += mainwindow.ui

@@ -1,11 +1,13 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include <QString>
+
 struct Point
 {
     double x;
     double y;
-    char clas;
+    int clas;
 
     bool operator==(const struct Point& p1)
     {

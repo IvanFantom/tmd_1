@@ -9,13 +9,12 @@ int main(int argc, char *argv[])
 {
     Methods m;
     QVector<Point> sample;
-    QVector< QVector<double> > result;
     double (*metric)(double x1,double y1,double x2,double y2);
 
     Point  P;
     double X[10]={4,1,5,1,3,6,8,6,9,4};
     double Y[10]={3,2,6,5,5,7,4,6,6,7};
-    char   C[10]={0,0,0,0,0,1,1,1,1,1};
+    int    C[10]={0,0,0,0,0,1,1,1,1,1};
 
     for(int i=0;i<10;i++)
     {
@@ -24,18 +23,15 @@ int main(int argc, char *argv[])
         P.y=Y[i];
         sample.append(P);
     }
+    P.x=4;
+    P.y=3;
+    P.clas=-1;
 
-    metric = Methods::DirectionCosines;
-    result = m.Standarts(sample,metric);
+    m.StandartsCalculation(sample);
+    metric = Methods::TanimotoDistance;
 
-    for(int i=0;i<result.size();i++)
-    {
-        for(int j=0;j<result[i].size();j++)
-        {
-            printf("%lf\n",result[i].at(j));
-        }
-        printf("\n\n");
-    }
+    printf("\nStandarts: class %d",m.Standarts(P,metric));
+    printf("\nK_Neighbors: class %d\n",m.K_Neighbors(P,5,sample,MAX,metric));
 
     return 0;
 
