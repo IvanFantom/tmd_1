@@ -16,12 +16,14 @@ public:
     QVector<Point> GetStandarts();                                            //возвращает эталоны класслов
     void StandartsCalculation(QVector<Point> sample);                         //вычисление эталонов
 
-    static double DirectionCosines(double x1,double y1,double x2,double y2);  //направл€ющие косинусы
-    static double EuclideanDistance(double x1,double y1,double x2,double y2); //≈вклидово рассто€ние
-    static double TanimotoDistance(double x1,double y1,double x2,double y2);  //рассто€ние “анимото
+    static int DirectionCosines(int x1,int y1,int x2,int y2);  //направл€ющие косинусы
+    static int EuclideanDistance(int x1,int y1,int x2,int y2); //≈вклидово рассто€ние
+    static int TanimotoDistance(int x1,int y1,int x2,int y2);  //рассто€ние “анимото
 
-    int Standarts(Point X,double (*metric)(double x1,double y1,double x2,double y2));                               //метод эталонов
-    int K_Neighbors(Point X,int K,QVector<Point> sample,direction dir,double (*metric)(double x1,double y1,double x2,double y2));      //метод k-ближайших соседей
+    int Standarts(Point X,direction dir,int (*metric)(int x1,int y1,int x2,int y2));                               //метод эталонов
+    int K_Neighbors(Point X,int K,QVector<Point> sample,direction dir,int (*metric)(int x1,int y1,int x2,int y2)); //метод k-ближайших соседей
+
+    QVector<Point> DiscriminantLine(QVector<Point> sample,direction dir,int (*metric)(int, int, int, int));
 };
 
 #endif // METHODS_H

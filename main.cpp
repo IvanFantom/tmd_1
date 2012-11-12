@@ -9,12 +9,12 @@ int main(int argc, char *argv[])
 {
     Methods m;
     QVector<Point> sample;
-    double (*metric)(double x1,double y1,double x2,double y2);
+    int (*metric)(int x1,int y1,int x2,int y2);
 
     Point  P;
-    double X[10]={4,1,5,1,3,6,8,6,9,4};
-    double Y[10]={3,2,6,5,5,7,4,6,6,7};
-    int    C[10]={0,0,0,0,0,1,1,1,1,1};
+    int X[10]={4,1,5,1,3,6,8,6,9,4};
+    int Y[10]={3,2,6,5,5,7,4,6,6,7};
+    int C[10]={0,0,0,0,0,1,1,1,1,1};
 
     for(int i=0;i<10;i++)
     {
@@ -23,15 +23,19 @@ int main(int argc, char *argv[])
         P.y=Y[i];
         sample.append(P);
     }
-    P.x=4;
-    P.y=3;
-    P.clas=-1;
 
-    m.StandartsCalculation(sample);
-    metric = Methods::TanimotoDistance;
+    metric = Methods::EuclideanDistance;
 
-    printf("\nStandarts: class %d",m.Standarts(P,metric));
-    printf("\nK_Neighbors: class %d\n",m.K_Neighbors(P,5,sample,MAX,metric));
+    //нахождение общих точек 2-х классов для построения по ним линии дискриминантности
+    QVector<Point> line;
+    line=m.DiscriminantLine(sample,MIN,metric);
+
+    for(int i=0;i<line.size();i++)
+        printf("x = %d, y = %d\n",line.at(i).x,line.at(i).y);
+
+    //определение принадлежности точки к одному из классов разными способами
+    //printf("\nStandarts: class %d",m.Standarts(P,MAX,metric));
+    //printf("\nK_Neighbors: class %d\n",m.K_Neighbors(P,5,sample,MAX,metric));
 
     return 0;
 

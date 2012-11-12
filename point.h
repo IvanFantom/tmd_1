@@ -5,8 +5,8 @@
 
 struct Point
 {
-    double x;
-    double y;
+    int x;
+    int y;
     int clas;
 
     bool operator==(const struct Point& p1)

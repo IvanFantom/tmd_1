@@ -4,20 +4,23 @@ Methods::Methods()
 {
 
 }
-double Methods::DirectionCosines(double x1, double y1, double x2, double y2)
+int Methods::DirectionCosines(int x1, int y1, int x2, int y2)
 {
     return (x1*x2+y1*y2)/(sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2)));
 }
-double Methods::EuclideanDistance(double x1, double y1, double x2, double y2)
+int Methods::EuclideanDistance(int x1, int y1, int x2, int y2)
 {
     return sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 }
-double Methods::TanimotoDistance(double x1, double y1, double x2, double y2)
+int Methods::TanimotoDistance(int x1, int y1, int x2, int y2)
 {
     return (x1*x2+y1*y2)/((x1*x1+y1*y1)+(x2*x2+y2*y2)-(x1*x2+y1*y2));
 }
 void Methods::StandartsCalculation(QVector<Point> sample)
 {
+    if(!standart.isEmpty())
+        standart.clear();
+
     QVector<int> cl;                   //классы
 
     //выделение классов из выборки
@@ -32,7 +35,7 @@ void Methods::StandartsCalculation(QVector<Point> sample)
     Point p;
     for(int i=0;i<cl.size();i++)
     {
-        double sx=0,sy=0;
+        int sx=0,sy=0;
         int k=0;
         for(int j=0;j<sample.size();j++)
         {
@@ -49,34 +52,37 @@ void Methods::StandartsCalculation(QVector<Point> sample)
         standart.append(p);
     }
 }
-int Methods::Standarts(Point X, double (*metric)(double, double, double, double))
+int Methods::Standarts(Point X,direction dir, int (*metric)(int, int, int, int))
 {
     if(standart.isEmpty())
         return -1;
 
-    QVector<double> dest;
-    double max = 0;
+    QVector<int> dest;
+    int value;
     int result;
 
     //рассчет расстояний между каждым эталоном и анализируемой точкой
-    for(int i=0;i<standart.size();i++)
+    dest.append(metric(X.x,X.y,standart.at(0).x,standart.at(0).y));
+    value=dest.at(0);result=standart.at(0).clas;
+    for(int i=1;i<standart.size();i++)
     {
         dest.append(metric(X.x,X.y,standart.at(i).x,standart.at(i).y));
-        if(max<dest.at(i))
+        if( (value<dest.at(i) && dir==MAX) || (value>dest.at(i) && dir==MIN) )
         {
-            max = dest.at(i);
-            result = i;
-        }
+            value = dest.at(i);
+            result = standart.at(i).clas;
+        }else if(value==dest.at(i))
+            return -2;
     }
 
     return standart.at(result).clas;
 }
-int Methods::K_Neighbors(Point X,int K,QVector<Point> sample,direction dir, double (*metric)(double, double, double, double))
+int Methods::K_Neighbors(Point X,int K,QVector<Point> sample,direction dir, int (*metric)(int, int, int, int))
 {
     if(K>sample.size() || !sample.size() || !K)
         return -1;
 
-    QVector<double> dest,analiz;
+    QVector<int> dest,analiz;
     QVector<int> cl;                   //классы
     int result;
 
@@ -93,7 +99,7 @@ int Methods::K_Neighbors(Point X,int K,QVector<Point> sample,direction dir, doub
     for(int i=0;i<cl.size();i++)
         ccount.append(0);
 
-    //рассчет расстояний между точкой и точками выборки
+    //рассчет расстояний между анализируемой точкой и точками выборки
     for(int i=0;i<sample.size();i++)
     {
         dest.append(metric(X.x,X.y,sample.at(i).x,sample.at(i).y));
@@ -124,27 +130,27 @@ int Methods::K_Neighbors(Point X,int K,QVector<Point> sample,direction dir, doub
         {
             value=ccount[i];
             valuei=i;
-        }
+        }else if(value==ccount[i])
+            return -2;
     }
 
     return result=cl[valuei];
 }
-
-/*QVector< QVector<double> > Methods::Standarts(QVector<Point> sample,double (*metric)(double x1, double y1, double x2, double y2))
+QVector<Point> Methods::DiscriminantLine(QVector<Point> sample,direction dir,int (*metric)(int, int, int, int))
 {
-    QVector< QVector<double> > result;  //расстояния между каждым эталоном и точками исходной выборки
+    QVector<Point> line;
+    Point P;
 
-    StandartsCalculation(sample);       //вычисление эталонов
-
-    //рассчет расстояний между каждым эталоном и точками выборки
-    for(int i=0;i<standart.size();i++)
+    StandartsCalculation(sample); //вычисление эталонов
+    for(int y=0;y<21;y+=1)
     {
-        result.append(QVector<double>());
-        for(int j=0;j<sample.size();j++)
+        P.y=y;
+        for(int x=0;x<21;x+=1)
         {
-            result[i].append(metric(sample.at(j).x,sample.at(j).y,standart.at(i).x,standart.at(i).y));
+            P.x=x;
+            if(Standarts(P,dir,metric)==-2)//if(m.K_Neighbors(P,5,sample,dir,metric)==-2)
+                line.append(P);
         }
     }
-
-    return result;
-}*/
+    return line;
+}
