@@ -6,22 +6,28 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = untitled
-TEMPLATE = app
-
-
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    chartwidget.cpp \
-    program.cpp \
-    methods.cpp
+SOURCES += 	main.cpp\
+		mainwindow.cpp \
+		chartwidget.cpp \
+		program.cpp \
+		exception.cpp\
+		methods.cpp \
+    pointadddialog.cpp \
+    chartline.cpp
 
 HEADERS  += mainwindow.h \
-    chartwidget.h \
-    program.h \
-    point.h \
-    methods.h
+	   chartwidget.h \
+	   program.h \
+	   point.h \
+           exception.h \
+           methods.h \
+    classcolor.h \
+    pointadddialog.h \
+    enums.h \
+    chartline.h
+		
+FORMS    += mainwindow.ui \
+    pointadddialog.ui
 
-FORMS    += mainwindow.ui
+RESOURCES += \
+    resources/resources.qrc

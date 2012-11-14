@@ -1,7 +1,16 @@
+/*!
+ * @author Denis Vashchuk
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
+
+#include "ui_mainwindow.h"
+#include "chartwidget.h"
+#include "enums.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,10 +25,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    
+
+    CalculateMethod getCalculateMethod();
+    CalculateMetrix getCalculateMetrix();
+
+    ChartWidget* getChartWidget() const;
+
 private:
+    ChartWidget* chartWidget;
     Ui::MainWindow *ui;
-    ChartWidget *chart;
+signals:
+    void calculateButtonClicked();
+    void drawButtonClicked();
 };
 
 #endif // MAINWINDOW_H

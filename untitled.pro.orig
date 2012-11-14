@@ -1,0 +1,35 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2012-10-21T13:09:38
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = untitled
+TEMPLATE = app
+
+
+SOURCES += main.cpp\
+        mainwindow.cpp \
+    chartwidget.cpp \
+    program.cpp \
+<<<<<<< HEAD
+    exception.cpp
+=======
+    methods.cpp
+>>>>>>> a3da7906440644405133faae6f2f09b10bd9d972
+
+HEADERS  += mainwindow.h \
+    chartwidget.h \
+    program.h \
+    point.h \
+<<<<<<< HEAD
+    exception.h
+=======
+    methods.h
+>>>>>>> a3da7906440644405133faae6f2f09b10bd9d972
+
+FORMS    += mainwindow.ui

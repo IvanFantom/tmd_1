@@ -1,3 +1,8 @@
+/*!
+ * @author Denis Vashchuk
+ * The main program class. Program start here.
+*/
+
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
@@ -14,6 +19,10 @@ public:
     void showGUI();
 private:
     MainWindow *window;
+public slots:
+    void processCalculating();
+    void processLineDraw();
+
 };
 
 #endif // PROGRAM_H

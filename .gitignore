@@ -1,5 +1,7 @@
 moc_*.cpp
-untitled.pro.user*
+*.pro.user*
+*_ui*
+Makefile*
 
 # Compiled source #
 ###################
