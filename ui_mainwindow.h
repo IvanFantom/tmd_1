@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon 12. Nov 18:05:53 2012
-**      by: Qt User Interface Compiler version 4.8.0
+** Created: Tue Nov 13 08:41:23 2012
+**      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -14,6 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QComboBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QMainWindow>
@@ -22,7 +23,6 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QStatusBar>
-#include <QtGui/QTableWidget>
 #include <QtGui/QToolBar>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
@@ -36,12 +36,15 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *layoutData;
-    QTableWidget *tableWidget;
     QHBoxLayout *horizontalLayout_2;
+    QComboBox *boxMethod;
+    QSpacerItem *horizontalSpacer_3;
+    QComboBox *boxMetrix;
+    QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton;
     QSpacerItem *horizontalSpacer_2;
+    QPushButton *buttonCalculate;
+    QPushButton *buttonDraw;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuHelp;
@@ -52,7 +55,11 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(442, 377);
+        MainWindow->resize(516, 377);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
+        MainWindow->setWindowOpacity(1);
         actionAbout = new QAction(MainWindow);
         actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
         centralWidget = new QWidget(MainWindow);
@@ -64,42 +71,64 @@ public:
         layoutData = new QHBoxLayout();
         layoutData->setSpacing(6);
         layoutData->setObjectName(QString::fromUtf8("layoutData"));
-        tableWidget = new QTableWidget(centralWidget);
-        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
-
-        layoutData->addWidget(tableWidget);
-
 
         verticalLayout->addLayout(layoutData);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        boxMethod = new QComboBox(centralWidget);
+        boxMethod->setObjectName(QString::fromUtf8("boxMethod"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(boxMethod->sizePolicy().hasHeightForWidth());
+        boxMethod->setSizePolicy(sizePolicy);
+        boxMethod->setSizeIncrement(QSize(2, 0));
 
-        horizontalLayout_2->addItem(horizontalSpacer);
+        horizontalLayout_2->addWidget(boxMethod);
 
-        pushButton_2 = new QPushButton(centralWidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_2->addWidget(pushButton_2);
+        horizontalLayout_2->addItem(horizontalSpacer_3);
 
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        boxMetrix = new QComboBox(centralWidget);
+        boxMetrix->setObjectName(QString::fromUtf8("boxMetrix"));
 
-        horizontalLayout_2->addWidget(pushButton);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_2);
+        horizontalLayout_2->addWidget(boxMetrix);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_2);
+
+        buttonCalculate = new QPushButton(centralWidget);
+        buttonCalculate->setObjectName(QString::fromUtf8("buttonCalculate"));
+
+        horizontalLayout->addWidget(buttonCalculate);
+
+        buttonDraw = new QPushButton(centralWidget);
+        buttonDraw->setObjectName(QString::fromUtf8("buttonDraw"));
+        buttonDraw->setSizeIncrement(QSize(1, 0));
+
+        horizontalLayout->addWidget(buttonDraw);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 442, 25));
+        menuBar->setGeometry(QRect(0, 0, 516, 28));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuHelp = new QMenu(menuBar);
@@ -123,10 +152,21 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "The theory of solutuion decision", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
-        pushButton_2->setText(QApplication::translate("MainWindow", "Add", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("MainWindow", "Delete", 0, QApplication::UnicodeUTF8));
+        boxMethod->clear();
+        boxMethod->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "K Neighbords", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Standarts points", 0, QApplication::UnicodeUTF8)
+        );
+        boxMetrix->clear();
+        boxMetrix->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Euvklid metrix", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Directions cosinus metrix", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Tinimoto metrix", 0, QApplication::UnicodeUTF8)
+        );
+        buttonCalculate->setText(QApplication::translate("MainWindow", "Calculate", 0, QApplication::UnicodeUTF8));
+        buttonDraw->setText(QApplication::translate("MainWindow", "Draw split line", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

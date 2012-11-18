@@ -10,9 +10,15 @@ Methods::Methods()
 {
 
 }
+
+QVector<Point> Methods::GetStandarts()
+{
+    return standart;
+}
+
 int Methods::DirectionCosines(int x1, int y1, int x2, int y2)
 {
-    return 100*((float)x1*(float)x2+(float)y1*(float)y2)/(sqrt(((float)x1*(float)x1+(float)y1*(float)y1)*((float)x2*(float)x2+(float)y2*(float)y2)));
+    return (x1*x2+y1*y2)/(sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2)));
 }
 
 int Methods::EuclideanDistance(int x1, int y1, int x2, int y2)
@@ -62,7 +68,7 @@ void Methods::StandartsCalculation(QVector<Point> sample)
     }
 }
 
-int Methods::Standarts(Point X,direction dir, int (*metric)(int, int, int, int), bool mode)
+int Methods::Standarts(Point X,direction dir, int (*metric)(int, int, int, int))
 {
     if(standart.isEmpty())
         return -1;
@@ -81,7 +87,7 @@ int Methods::Standarts(Point X,direction dir, int (*metric)(int, int, int, int),
         {
             value = dest.value(i);
             result = standart.value(i).clas;
-        }else if(value==dest.value(i) && mode)
+        }else if(value==dest.value(i))
             return -2;
     }
 
@@ -189,12 +195,12 @@ QVector<Point> Methods::findSplitLine(QVector<Point> srcpoints, int clas0, int c
     {
         P.y=y;
         P.clas = -1;
-        //P.classType = UNDEFINED;
+        P.classType = UNDEFINED;
 
         for(int x=minX-1;x<maxX+1;x+=1)
         {
             P.x=x;
-            if(Standarts(P,MIN,_metrix_,true)==-2)//if(m.K_Neighbors(P,5,sample,dir,metric)==-2)
+            if(Standarts(P,MIN,_metrix_)==-2)//if(m.K_Neighbors(P,5,sample,dir,metric)==-2)
                 line.append(P);
         }
     }
@@ -276,7 +282,7 @@ QVector<Point> Methods::calculateClass(QVector<Point> points, CalculateMethod me
             StandartsCalculation(sample);
             for(int i=0;i<Xpoints.size();i++)
             {
-                Xpoints[i].clas=Standarts(Xpoints.value(i),dir,_metrix_,false);
+                Xpoints[i].clas=Standarts(Xpoints.value(i),dir,_metrix_);
                 //! don't do it Xpoints[i].classType=DEFINED;
             }
             break;
@@ -302,3 +308,58 @@ QVector<Point> Methods::calculateClass(QVector<Point> points, CalculateMethod me
     return Xpoints;
 }
 
+void Methods::WriteFile(QVector<Point> points,QString filename)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        cerr << "Cannot open file for writting: "
+             << qPrintable(file.errorString()) << endl;
+        return;
+    }
+
+    QTextStream out(&file);
+    foreach(Point P,points)
+    {
+        out<<P.x<<" "<<P.y<<" "<<P.clas<<" ";
+        if(P.classType == DEFINED)
+            out<<"DEFINED";
+        else if(P.classType == UNDEFINED)
+            out<<"UNDEFINED";
+        if(P != points.last())
+            out<<"\r\n";
+    }
+}
+QVector<Point> Methods::ReadFile(QString filename)
+{
+    QVector<Point> points;
+    Point P;
+
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        cerr << "Cannot open file for reading: "
+             << qPrintable(file.errorString()) << endl;
+        return points;
+    }
+
+    QTextStream in(&file);
+    while(!in.atEnd())
+    {
+        QString line = in.readLine();
+        QStringList fields = line.split(' ');
+
+        P.x = fields.takeFirst().toInt();
+        P.y = fields.takeFirst().toInt();
+        P.clas = fields.takeFirst().toInt();
+
+        QString str = fields.takeFirst();
+        if(str == "DEFINED")
+            P.classType=DEFINED;
+        else if(str == "UNDEFINED")
+            P.classType=UNDEFINED;
+        points.append(P);
+    }
+
+    return points;
+}
