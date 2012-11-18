@@ -53,7 +53,7 @@ void Program::processLineDraw()
 {
     qDebug() << "Finding all spit lines...";
     Methods alg;
-    ChartLine lines = alg.findSplitLines(window->getChartWidget()->getPoints());
+    ChartLine lines = alg.findSplitLines(window->getChartWidget()->getPoints(),0);
     window->getChartWidget()->chartLines() = lines;
     window->getChartWidget()->repaint();
 }

@@ -155,7 +155,7 @@ int Methods::K_Neighbors(Point X,int K,QVector<Point> sample,direction dir, int 
     return result=cl.value(valuei);
 }
 
-QVector<Point> Methods::findSplitLine(QVector<Point> srcpoints, int clas0, int clas1)
+QVector<Point> Methods::findSplitLine(QVector<Point> srcpoints,int dx, int clas0, int clas1)
 {
     QVector<Point> line,sample;
     int (*_metrix_)(int x1,int y1,int x2,int y2);
@@ -204,10 +204,22 @@ QVector<Point> Methods::findSplitLine(QVector<Point> srcpoints, int clas0, int c
                 line.append(P);
         }
     }
+
+    for(int i=1,k=0;i<line.size()-1;i++)
+    {
+        if(k!=dx)
+        {
+            line.remove(i--);
+            k++;
+        }
+        if(k==dx)
+            k=0;
+    }
+
     return line;
 }
 
-ChartLine Methods::findSplitLines(QVector<Point> srcpoints)
+ChartLine Methods::findSplitLines(QVector<Point> srcpoints, int dx)
 {
     ChartLine lines;
     QVector<Point> defined;
@@ -230,7 +242,7 @@ ChartLine Methods::findSplitLines(QVector<Point> srcpoints)
     for(int i=0;i<cl.size();i++)
     {
         for(int j=i+1;j<cl.size();j++)
-            lines.addLine(findSplitLine(defined,cl.value(i),cl.value(j)),cl.value(i),cl.value(j));
+            lines.addLine(findSplitLine(defined,dx,cl.value(i),cl.value(j)),cl.value(i),cl.value(j));
     }
 
     return lines;
@@ -330,6 +342,7 @@ void Methods::WriteFile(QVector<Point> points,QString filename)
             out<<"\r\n";
     }
 }
+
 QVector<Point> Methods::ReadFile(QString filename)
 {
     QVector<Point> points;
